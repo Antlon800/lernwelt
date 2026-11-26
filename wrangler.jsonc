@@ -8,8 +8,14 @@
     "binding": "ASSETS",
     "run_worker_first": ["/api/*"]
   },
-  // D1 wird nach dem Erstellen der Datenbank hier mit Name und ID eingetragen.
-  // Keine Zugangsdaten oder Admin-Codes in diese Datei schreiben.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "lernwelt-db",
+      "database_id": "ef00dcb7-925f-4ae7-837d-854ba35e26ab",
+      "migrations_dir": "migrations"
+    }
+  ],
   "observability": {
     "enabled": true
   }
