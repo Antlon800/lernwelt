@@ -1,4 +1,4 @@
-const COOKIE="__Host-lernwelt_session", DAYS=14, ITERATIONS=120000, enc=new TextEncoder();
+const COOKIE="__Host-lernwelt_session", DAYS=14, ITERATIONS=100000, enc=new TextEncoder();
 const json=(data,status=200,headers={})=>Response.json(data,{status,headers:{"Cache-Control":"no-store",...headers}});
 function randomToken(){const a=crypto.getRandomValues(new Uint8Array(32));return btoa(String.fromCharCode(...a)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/g,"");}
 async function digest(s){const d=await crypto.subtle.digest("SHA-256",enc.encode(s));return [...new Uint8Array(d)].map(x=>x.toString(16).padStart(2,"0")).join("");}
