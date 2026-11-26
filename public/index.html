@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10131b">
+  <meta name="description" content="Lernwelt – deine Plattform zum Lernen, Üben und Vorbereiten auf Klassenarbeiten.">
+  <title>Lernwelt – Dein Lernraum</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="/" aria-label="Lernwelt Startseite">
+        <span class="brand-mark">L</span><span>Lernwelt</span>
+      </a>
+      <div class="side-label">MENÜ</div>
+      <nav class="side-nav" aria-label="Hauptnavigation">
+        <a class="nav-link active" href="#start" data-view="start"><span class="nav-icon">⌂</span>Übersicht</a>
+        <a class="nav-link" href="#faecher" data-view="faecher"><span class="nav-icon">▦</span>Meine Fächer</a>
+        <a class="nav-link" href="#lernen" data-view="lernen"><span class="nav-icon">◇</span>Lernbereich</a>
+        <a class="nav-link" href="#pruefungen" data-view="pruefungen"><span class="nav-icon">◷</span>Prüfungen</a>
+        <a class="nav-link" href="#fortschritt" data-view="fortschritt"><span class="nav-icon">↗</span>Fortschritt</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="side-label">DEIN KONTO</div>
+        <a class="nav-link" href="#konto" data-view="konto"><span class="nav-icon">◎</span>Anmelden</a>
+        <div class="sidebar-note"><span class="status-dot"></span>Dein Lernplatz für jedes Fach.</div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="menu-button" id="menuButton" aria-label="Menü öffnen">☰</button>
+        <div class="breadcrumb">Lernwelt <span>/</span> <strong id="breadcrumbCurrent">Übersicht</strong></div>
+        <div class="top-actions"><span class="online-indicator"><i></i> Lernplattform</span><button class="avatar" aria-label="Konto">G</button></div>
+      </header>
+
+      <section class="page-content" id="pageContent">
+        <div class="welcome-row">
+          <div>
+            <div class="eyebrow">DEIN PERSÖNLICHER LERNRAUM</div>
+            <h1>Willkommen in der <span>Lernwelt.</span></h1>
+            <p class="lead">Lerne in deinem Tempo. Behalte deinen Fortschritt im Blick.</p>
+          </div>
+          <div class="date-chip"><span class="date-icon">✦</span> Schritt für Schritt besser werden</div>
+        </div>
+
+        <section class="hero-panel">
+          <div class="hero-copy">
+            <div class="hero-tag"><span></span> DEIN NÄCHSTER SCHRITT</div>
+            <h2>Wissen aufbauen.<br><em>Selbstvertrauen</em> gewinnen.</h2>
+            <p>Wähle ein Fach und starte mit einem Thema. Deine Lernreise beginnt hier.</p>
+            <a class="primary-button" href="#faecher" data-view="faecher">Fächer entdecken <span>→</span></a>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+            <div class="book book-back"></div><div class="book book-front"><div class="book-line"></div><div class="book-line short"></div><div class="book-line"></div></div>
+            <div class="spark spark-one">✦</div><div class="spark spark-two">✧</div><div class="spark spark-three">·</div>
+          </div>
+        </section>
+
+        <div class="section-heading">
+          <div><div class="eyebrow">DEIN ÜBERBLICK</div><h2>Alles auf einen Blick</h2></div>
+          <span class="muted-caption">Dein persönlicher Lernbereich</span>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-top"><span class="stat-icon violet">▦</span><span class="stat-kicker">LERNBEREICH</span></div><div class="stat-value">Deine Fächer</div><div class="stat-foot">Alle Schulfächer an einem Ort</div></article>
+          <article class="stat-card"><div class="stat-top"><span class="stat-icon blue">◷</span><span class="stat-kicker">FLEXIBEL LERNEN</span></div><div class="stat-value">Dein Tempo</div><div class="stat-foot">Üben, wiederholen und festigen</div></article>
+          <article class="stat-card"><div class="stat-top"><span class="stat-icon green">↗</span><span class="stat-kicker">DEIN FORTSCHRITT</span></div><div class="stat-value">Alles im Blick</div><div class="stat-foot">Ergebnisse und Lernstand speichern</div></article>
+        </div>
+
+        <div class="section-heading subjects-heading">
+          <div><div class="eyebrow">LERNEN BEGINNT HIER</div><h2>Deine Fächer</h2></div>
+          <a class="text-link" href="#faecher" data-view="faecher">Alle Fächer <span>→</span></a>
+        </div>
+        <div class="subject-grid">
+          <article class="subject-card"><div class="subject-symbol math">∑</div><div class="subject-info"><h3>Mathematik</h3><p>Rechnen und verstehen</p></div><span class="subject-arrow">↗</span></article>
+          <article class="subject-card"><div class="subject-symbol german">文</div><div class="subject-info"><h3>Deutsch</h3><p>Lesen, schreiben, Sprache</p></div><span class="subject-arrow">↗</span></article>
+          <article class="subject-card"><div class="subject-symbol english">A</div><div class="subject-info"><h3>Englisch</h3><p>Vokabeln und Grammatik</p></div><span class="subject-arrow">↗</span></article>
+          <article class="subject-card"><div class="subject-symbol french">é</div><div class="subject-info"><h3>Französisch</h3><p>Vokabeln und Kommunikation</p></div><span class="subject-arrow">↗</span></article>
+          <article class="subject-card"><div class="subject-symbol physics">⌁</div><div class="subject-info"><h3>Physik</h3><p>Zusammenhänge entdecken</p></div><span class="subject-arrow">↗</span></article>
+          <article class="subject-card"><div class="subject-symbol history">◈</div><div class="subject-info"><h3>Geschichte</h3><p>Vergangenheit verstehen</p></div><span class="subject-arrow">↗</span></article>
+        </div>
+        <footer class="page-footer"><span>© 2026 Lernwelt</span><span>Mit Klarheit lernen. Mit Vertrauen wachsen.</span></footer>
+      </section>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
