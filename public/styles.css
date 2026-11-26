@@ -9,3 +9,41 @@
 
 /* Owner-Benutzerverwaltung */
 .role-manager{max-width:720px;margin:28px 0 22px;padding:22px;border:1px solid #51436f;background:linear-gradient(145deg,#201d2d,#191e29);border-radius:14px}.role-manager h2{font:700 19px Manrope,sans-serif;margin:0 0 8px}.role-manager>.eyebrow{margin-bottom:8px}.managed-user{display:flex;align-items:center;gap:10px;padding:12px 0;border-top:1px solid var(--line)}.managed-user-info{display:grid;gap:4px;min-width:0;flex:1}.managed-user-info strong{font-size:12px;overflow-wrap:anywhere}.managed-user-info small{font-size:10px;color:#929bad}.managed-user select{max-width:125px;background:#111722;color:#f2f4fa;border:1px solid #343d4e;border-radius:7px;padding:8px;font:11px 'DM Sans'}.role-save{padding:8px 10px;font-size:10px}.role-save:disabled{opacity:.5}@media(max-width:520px){.managed-user{flex-wrap:wrap}.managed-user-info{flex-basis:100%}.managed-user select{flex:1}}
+
+
+/* Eigenständiger Scrollbereich: feste Seitenleiste, scrollender Hauptinhalt */
+@media (min-width:721px){
+  html,body{height:100%;min-height:100%;overflow:hidden}
+  .app-shell{height:100dvh;min-height:0;overflow:hidden;align-items:stretch}
+  .sidebar{
+    height:100dvh;min-height:0;max-height:100dvh;overflow:hidden;
+    position:sticky;top:0;flex-shrink:0;
+    padding-top:clamp(12px,2.4vh,28px);
+    padding-bottom:clamp(10px,1.8vh,20px);
+  }
+  .brand{padding-bottom:clamp(18px,4vh,48px)}
+  .side-nav{gap:clamp(3px,.7vh,6px)}
+  .nav-link{height:clamp(37px,5.4vh,43px);flex:0 0 auto}
+  .sidebar-note{margin-top:clamp(12px,2.4vh,28px)}
+  .main-area{
+    height:100dvh;min-height:0;min-width:0;
+    display:flex;flex-direction:column;overflow:hidden;
+  }
+  .topbar{flex:0 0 72px}
+  .page-content{
+    flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;
+    scrollbar-gutter:stable;scroll-behavior:smooth;
+  }
+}
+@media (max-height:620px) and (min-width:721px){
+  .brand{padding-bottom:14px}
+  .side-label{padding-bottom:7px}
+  .nav-link{height:34px}
+  .sidebar-note{margin-top:10px;padding:9px 10px}
+}
+@media (max-width:720px){
+  html,body{min-height:100%;height:auto;overflow-x:hidden;overflow-y:auto}
+  .app-shell{height:auto;min-height:100vh;overflow:visible}
+  .main-area{height:auto;min-height:100vh;overflow:visible}
+  .page-content{overflow:visible;min-height:calc(100vh - 60px)}
+}
