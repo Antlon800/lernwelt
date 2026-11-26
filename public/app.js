@@ -1,63 +1,20 @@
 "use strict";
-
-const navLinks = [...document.querySelectorAll("[data-view]")];
-const breadcrumb = document.getElementById("breadcrumbCurrent");
-const sidebar = document.getElementById("sidebar");
-const menuButton = document.getElementById("menuButton");
-const toast = document.getElementById("toast");
-
-const labels = {
-  start: "Übersicht",
-  faecher: "Meine Fächer",
-  lernen: "Lernbereich",
-  pruefungen: "Prüfungen",
-  fortschritt: "Fortschritt",
-  konto: "Anmelden"
-};
-
-function showToast(message) {
-  toast.textContent = message;
-  toast.classList.add("show");
-  window.setTimeout(() => toast.classList.remove("show"), 2600);
+const navLinks=[...document.querySelectorAll("[data-view]")],breadcrumb=document.getElementById("breadcrumbCurrent"),sidebar=document.getElementById("sidebar"),menuButton=document.getElementById("menuButton"),toast=document.getElementById("toast"),pageContent=document.getElementById("pageContent"),homeMarkup=pageContent.innerHTML;
+let signedInUser=null;
+const labels={start:"Übersicht",faecher:"Meine Fächer",lernen:"Lernbereich",pruefungen:"Prüfungen",fortschritt:"Fortschritt",konto:"Mein Konto"};
+function showToast(s){toast.textContent=s;toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),2700);}
+async function api(path,options={}){const r=await fetch(path,{...options,headers:{"Content-Type":"application/json",...(options.headers||{})},credentials:"same-origin"}),data=await r.json().catch(()=>({}));if(!r.ok)throw Error(data.error||"Anfrage fehlgeschlagen.");return data;}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function accountHTML(){if(signedInUser)return `<div class="account-wrap"><div class="eyebrow">DEIN PERSÖNLICHER BEREICH</div><h1>Schön, dass du da bist, <span>${esc(signedInUser.displayName)}</span>.</h1><p class="lead">Dein Konto ist angemeldet und bereit.</p><section class="account-panel"><div class="account-avatar">${esc(signedInUser.displayName.slice(0,1).toUpperCase())}</div><div><h2>${esc(signedInUser.displayName)}</h2><p>${esc(signedInUser.email)}</p><span class="role-pill">${signedInUser.role==="admin"?"Administrator":"Schülerkonto"}</span></div></section><button class="secondary-button" id="logoutButton">Abmelden</button>${signedInUser.role==="admin"?'<p class="account-hint">Admin-Konto erkannt. Die Verwaltungsoberfläche folgt als nächster Schritt.</p>':""}</div>`;
+return `<div class="account-wrap"><div class="eyebrow">DEIN LERNWELT-KONTO</div><h1>Willkommen <span>zurück.</span></h1><p class="lead">Melde dich an oder erstelle ein Konto, um deinen Lernfortschritt zu speichern.</p><div class="auth-panel"><div class="auth-tabs"><button type="button" class="auth-tab active" data-mode="login">Anmelden</button><button type="button" class="auth-tab" data-mode="register">Konto erstellen</button></div><form id="authForm"><div class="form-field" id="nameField" hidden><label for="displayName">Dein Name</label><input id="displayName" name="displayName" autocomplete="name" minlength="2" maxlength="60" placeholder="Vor- und Nachname"></div><div class="form-field"><label for="email">E-Mail-Adresse</label><input id="email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="name@beispiel.de"></div><div class="form-field"><label for="password">Passwort</label><input id="password" name="password" type="password" autocomplete="current-password" minlength="10" maxlength="200" required placeholder="Mindestens 10 Zeichen"><small>Mindestens 10 Zeichen.</small></div><div class="form-field" id="codeField" hidden><label for="adminCode">Admin-Code (optional)</label><input id="adminCode" name="adminCode" type="password" autocomplete="off" placeholder="Nur ausfüllen, wenn du Admin bist"><small>Ohne gültigen Code erhältst du ein normales Schülerkonto.</small></div><p class="form-error" id="authError" role="alert"></p><button class="primary-button auth-submit" id="authSubmit" type="submit">Anmelden <span>→</span></button></form><p class="auth-footnote">Dein Passwort wird geschützt gespeichert. Teile den Admin-Code nur mit Personen, die Adminrechte erhalten sollen.</p></div></div>`;}
+function renderAccount(){pageContent.innerHTML=accountHTML();const link=document.querySelector('[data-view="konto"]');if(link)link.innerHTML='<span class="nav-icon">◎</span>'+(signedInUser?"Mein Konto":"Anmelden");const avatar=document.querySelector(".avatar");if(avatar)avatar.textContent=signedInUser?signedInUser.displayName.slice(0,1).toUpperCase():"G";
+ document.getElementById("logoutButton")?.addEventListener("click",async()=>{try{await api("/api/logout",{method:"POST",body:"{}"});signedInUser=null;renderAccount();showToast("Du wurdest abgemeldet.");}catch(e){showToast(e.message);}});
+ const form=document.getElementById("authForm");if(!form)return;let mode="login";const tabs=[...document.querySelectorAll("[data-mode]")],name=document.getElementById("nameField"),code=document.getElementById("codeField"),submit=document.getElementById("authSubmit"),error=document.getElementById("authError"),display=document.getElementById("displayName");
+ function setMode(m){mode=m;tabs.forEach(t=>t.classList.toggle("active",t.dataset.mode===m));name.hidden=code.hidden=m!=="register";display.required=m==="register";document.getElementById("password").autocomplete=m==="register"?"new-password":"current-password";submit.innerHTML=m==="register"?"Konto erstellen <span>→</span>":"Anmelden <span>→</span>";error.textContent="";}
+ tabs.forEach(t=>t.addEventListener("click",()=>setMode(t.dataset.mode)));
+ form.addEventListener("submit",async e=>{e.preventDefault();error.textContent="";submit.disabled=true;submit.textContent="Einen Moment …";const data=Object.fromEntries(new FormData(form).entries());try{const result=await api(mode==="register"?"/api/register":"/api/login",{method:"POST",body:JSON.stringify(data)});signedInUser=result.user;renderAccount();showToast(mode==="register"?"Dein Konto wurde erstellt.":"Du bist angemeldet.");}catch(err){error.textContent=err.message;submit.disabled=false;submit.innerHTML=mode==="register"?"Konto erstellen <span>→</span>":"Anmelden <span>→</span>";}});
 }
-
-function navigate(view) {
-  if (!labels[view]) return;
-  navLinks.forEach(link => link.classList.toggle("active", link.dataset.view === view));
-  breadcrumb.textContent = labels[view];
-  sidebar.classList.remove("open");
-  if (view !== "start") {
-    const messages = {
-      faecher: "Die Fachübersicht wird als Nächstes mit echten Lerninhalten verbunden.",
-      lernen: "Der Lernbereich wird gerade vorbereitet.",
-      pruefungen: "Der Prüfungsmodus wird als Nächstes eingerichtet.",
-      fortschritt: "Deine persönlichen Statistiken folgen mit dem Benutzerkonto.",
-      konto: "Die sichere Konto- und Anmeldefunktion wird als Nächstes eingerichtet."
-    };
-    showToast(messages[view]);
-  }
-}
-
-navLinks.forEach(link => link.addEventListener("click", event => {
-  event.preventDefault();
-  const view = link.dataset.view;
-  history.replaceState(null, "", "#" + view);
-  navigate(view);
-}));
-
-menuButton?.addEventListener("click", () => sidebar.classList.toggle("open"));
-
-async function checkWorker() {
-  try {
-    const response = await fetch("/api/health", { headers: { accept: "application/json" } });
-    if (!response.ok) throw new Error("API nicht erreichbar");
-    const result = await response.json();
-    document.documentElement.dataset.api = result.status === "ok" ? "online" : "offline";
-  } catch {
-    document.documentElement.dataset.api = "offline";
-  }
-}
-
-const initialView = location.hash.slice(1);
-if (labels[initialView]) navigate(initialView);
-checkWorker();
+function navigate(view){if(!labels[view])return;navLinks.forEach(a=>a.classList.toggle("active",a.dataset.view===view));breadcrumb.textContent=labels[view];sidebar.classList.remove("open");if(view==="konto")renderAccount();else if(view==="start")pageContent.innerHTML=homeMarkup;else{pageContent.innerHTML=homeMarkup;showToast(({faecher:"Die Fachübersicht wird als Nächstes verbunden.",lernen:"Der Lernbereich wird vorbereitet.",pruefungen:"Der Prüfungsmodus folgt als Nächstes.",fortschritt:"Deine persönlichen Statistiken folgen."})[view]);}}
+navLinks.forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const v=a.dataset.view;history.replaceState(null,"","#"+v);navigate(v);}));menuButton?.addEventListener("click",()=>sidebar.classList.toggle("open"));
+async function checkWorker(){try{const [h,m]=await Promise.all([api("/api/health"),api("/api/me")]);document.documentElement.dataset.api=h.status==="ok"&&h.databaseReady?"online":"offline";signedInUser=m.user;if(location.hash.slice(1)==="konto")renderAccount();else if(signedInUser){const av=document.querySelector(".avatar");if(av)av.textContent=signedInUser.displayName.slice(0,1).toUpperCase();}}catch{document.documentElement.dataset.api="offline";}}
+const initial=location.hash.slice(1);if(labels[initial])navigate(initial);checkWorker();
