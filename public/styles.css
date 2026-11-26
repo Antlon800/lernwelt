@@ -47,3 +47,7 @@
   .main-area{height:auto;min-height:100vh;overflow:visible}
   .page-content{overflow:visible;min-height:calc(100vh - 60px)}
 }
+
+/* Lernwelt-Logo */
+.brand-mark{color:#211a34;overflow:hidden}
+.brand-mark svg{display:block;width:100%;height:100%;padding:5px}
