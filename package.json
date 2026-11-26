@@ -1,0 +1,17 @@
+{
+  "name": "lernwelt",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Eine allgemeine Lernplattform für verschiedene Schulfächer.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:create": "wrangler d1 create lernwelt-db --location weur --jurisdiction eu",
+    "db:migrate:local": "wrangler d1 migrations apply lernwelt-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply lernwelt-db --remote"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
